@@ -4,33 +4,39 @@ sources:
   - name: capstone_raw
     database: CT_HARSH_JOSHI_DB
     schema: DBT_HARSHJOSHI2206
-    loaded_at_field: file_last_modified
     tables:
       - name: customer_ext
-        freshness:
-          warn_after: {count: 25, period: hour}
-          error_after: {count: 48, period: hour}
+        config:
+          freshness:
+            warn_after: {count: 25, period: hour}
+            error_after: {count: 48, period: hour}
       - name: product_ext
-        freshness:
-          warn_after: {count: 25, period: hour}
-          error_after: {count: 48, period: hour}
+        config:
+          freshness:
+            warn_after: {count: 25, period: hour}
+            error_after: {count: 48, period: hour}
       - name: orders_ext
-        freshness:
-          warn_after: {count: 25, period: hour}
-          error_after: {count: 48, period: hour}
+        config:
+          freshness:
+            warn_after: {count: 25, period: hour}
+            error_after: {count: 48, period: hour}
       - name: employee_ext
-        freshness:
-          warn_after: {count: 25, period: hour}
-          error_after: {count: 48, period: hour}
+        config:
+          freshness:
+            warn_after: {count: 25, period: hour}
+            error_after: {count: 48, period: hour}
       - name: store_ext
-        freshness:
-          warn_after: {count: 25, period: hour}
-          error_after: {count: 48, period: hour}
+        config:
+          freshness:
+            warn_after: {count: 25, period: hour}
+            error_after: {count: 48, period: hour}
       - name: supplier_ext
-        freshness:
-          warn_after: {count: 25, period: hour}
-          error_after: {count: 48, period: hour}
+        config:
+          freshness:
+            warn_after: {count: 25, period: hour}
+            error_after: {count: 48, period: hour}
       - name: campaign_ext
-        freshness:
-          warn_after: {count: 25, period: hour}
-          error_after: {count: 48, period: hour}
+        config:
+          freshness:
+            warn_after: {count: 25, period: hour}
+            error_after: {count: 48, period: hour}
