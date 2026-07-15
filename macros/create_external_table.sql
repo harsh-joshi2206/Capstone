@@ -4,10 +4,10 @@
 
 {% set create_table_sql %}
     CREATE OR REPLACE EXTERNAL TABLE {{ database }}.{{ schema }}.{{ table_name }} (
-        raw_json VARIANT AS (VALUE:c1::VARIANT),
-        file_name STRING AS (VALUE:c1:metadata$filename::STRING),
-        file_row_number NUMBER AS (VALUE:c1:metadata$file_row_number::NUMBER),
-        file_last_modified TIMESTAMP_NTZ AS (VALUE:c1:metadata$file_last_modified::TIMESTAMP_NTZ)
+        raw_json VARIANT AS (VALUE::VARIANT),
+        file_name STRING AS (METADATA$FILENAME::STRING),
+        file_row_number NUMBER AS (METADATA$FILE_ROW_NUMBER::NUMBER),
+        file_last_modified TIMESTAMP_NTZ AS (METADATA$FILE_LAST_MODIFIED::TIMESTAMP_NTZ)
     )
     WITH LOCATION = @{{ stage_path }}
     AUTO_REFRESH = FALSE
