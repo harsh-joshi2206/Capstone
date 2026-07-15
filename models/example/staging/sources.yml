@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: capstone_raw
+    database: CT_HARSH_JOSHI_DB
+    schema: DBT_HARSHJOSHI2206
+    tables:
+      - name: customer_ext
+      - name: product_ext
+      - name: orders_ext
+      - name: employee_ext
+      - name: store_ext
+      - name: supplier_ext
+      - name: campaign_ext
