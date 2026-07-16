@@ -4,7 +4,7 @@
     create or replace external table {{ source(source_name, table_name) }} (
         file_last_modified timestamp_ntz as to_timestamp_ntz(metadata$file_last_modified),
         source_file_name string as metadata$filename,
-        value variant as (value)
+        raw_json variant as (value)
     )
     location = @snwflk_capstone_stage/{{ file_path }}/
     file_format = (type = json)

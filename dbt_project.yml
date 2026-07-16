@@ -1,6 +1,6 @@
 name: 'capstone_sales_customer_analytics'
 version: '1.0.0'
-config-version: 2
+config-version: 2 
 
 profile: 'default'
 
@@ -20,7 +20,7 @@ models:
   capstone_sales_customer_analytics:
     staging:
       +materialized: incremental
-      +schema: bronze
+      +schema: DBT_HARSHJOSHI2206
     intermediate:
       +materialized: view
       +schema: silver
