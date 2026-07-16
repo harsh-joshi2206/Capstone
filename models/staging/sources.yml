@@ -6,36 +6,43 @@ sources:
     schema: DBT_HARSHJOSHI2206
     tables:
       - name: customer_ext
+        loaded_at_field: file_last_modified
         config:
           freshness:
             warn_after: {count: 25, period: hour}
             error_after: {count: 48, period: hour}
       - name: product_ext
+        loaded_at_field: file_last_modified
         config:
           freshness:
-            warn_after: {count: 25, period: hour}
-            error_after: {count: 48, period: hour}
+            warn_after: {count: 13, period: day}
+            error_after: {count: 14, period: day}
       - name: orders_ext
+        loaded_at_field: file_last_modified
         config:
           freshness:
             warn_after: {count: 25, period: hour}
             error_after: {count: 48, period: hour}
       - name: employee_ext
+        loaded_at_field: file_last_modified
         config:
           freshness:
             warn_after: {count: 25, period: hour}
             error_after: {count: 48, period: hour}
       - name: store_ext
+        loaded_at_field: file_last_modified
         config:
           freshness:
             warn_after: {count: 25, period: hour}
             error_after: {count: 48, period: hour}
       - name: supplier_ext
+        loaded_at_field: file_last_modified
         config:
           freshness:
             warn_after: {count: 25, period: hour}
             error_after: {count: 48, period: hour}
       - name: campaign_ext
+        loaded_at_field: file_last_modified
         config:
           freshness:
             warn_after: {count: 25, period: hour}

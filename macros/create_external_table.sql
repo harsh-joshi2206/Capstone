@@ -1,20 +1,17 @@
-{% macro create_external_table(table_name, source_folder, database='CT_HARSH_JOSHI_DB', schema='DBT_HARSHJOSHI2206') %}
+{% macro create_external_table(source_name, table_name, file_path) %}
 
-{% set stage_path = database ~ '.' ~ schema ~ '.SNWFLK_CAPSTONE_STAGE/Capstone_Project_Data/' ~ source_folder ~ '/' %}
-
-{% set create_table_sql %}
-    CREATE OR REPLACE EXTERNAL TABLE {{ database }}.{{ schema }}.{{ table_name }} (
-        raw_json VARIANT AS (VALUE::VARIANT),
-        file_name STRING AS (METADATA$FILENAME::STRING),
-        file_row_number NUMBER AS (METADATA$FILE_ROW_NUMBER::NUMBER),
-        file_last_modified TIMESTAMP_NTZ AS (METADATA$FILE_LAST_MODIFIED::TIMESTAMP_NTZ)
+{% set ddl %}
+    create or replace external table {{ source(source_name, table_name) }} (
+        file_last_modified timestamp_ntz as to_timestamp_ntz(metadata$file_last_modified),
+        source_file_name string as metadata$filename,
+        value variant as (value)
     )
-    WITH LOCATION = @{{ stage_path }}
-    AUTO_REFRESH = FALSE
-    FILE_FORMAT = (TYPE = JSON)
+    location = @snwflk_capstone_stage/{{ file_path }}/
+    file_format = (type = json)
+    auto_refresh = false
 {% endset %}
 
-{% do run_query(create_table_sql) %}
-{% do log('Created external table: ' ~ database ~ '.' ~ schema ~ '.' ~ table_name, info=True) %}
+{% do run_query(ddl) %}
+{{ log("Created external table for " ~ table_name, info=True) }}
 
 {% endmacro %}
