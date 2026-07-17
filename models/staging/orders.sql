@@ -16,10 +16,27 @@ with flattened as (
     from {{ source('capstone_raw', 'orders_ext') }} t,
     lateral flatten(input => t.raw_json) f1,
     lateral flatten(input => f1.value) f2
+
+    {% if is_incremental() %}
+    where file_last_modified > (select coalesce(max(_file_last_modified), '1900-01-01'::timestamp_ntz) from {{ this }})
+    {% endif %}
+),
+
+ranked as (
+    select
+        *,
+        row_number() over (
+            partition by order_id
+            order by _file_last_modified desc
+        ) as _rn
+    from flattened
 )
 
-select * from flattened
-
-{% if is_incremental() %}
-where _file_last_modified > (select coalesce(max(_file_last_modified), '1900-01-01'::timestamp_ntz) from {{ this }})
-{% endif %}
+select
+    order_id,
+    raw_json,
+    _source_file,
+    _file_last_modified,
+    _loaded_at
+from ranked
+where _rn = 1

@@ -23,19 +23,35 @@ exploded as (
         order_base.order_id,
         item.index as line_item_index,
         item.value:product_id::string as product_id,
-        item.value:quantity::number as quantity,
-        item.value:unit_price::float as unit_price,
-        item.value:cost_price::float as cost_price,
-        item.value:discount_amount::float as discount_amount,
+        item.value as raw_json,
         order_base._source_file,
         order_base._file_last_modified,
         order_base._loaded_at
     from order_base,
     lateral flatten(input => order_base.items_array) item
+),
+
+ranked as (
+    select
+        *,
+        row_number() over (
+            partition by order_id, product_id, line_item_index
+            order by _file_last_modified desc
+        ) as _rn
+    from exploded
 )
 
-select * from exploded
+select
+    order_id,
+    line_item_index,
+    product_id,
+    raw_json,
+    _source_file,
+    _file_last_modified,
+    _loaded_at
+from ranked
+where _rn = 1
 
 {% if is_incremental() %}
-where _file_last_modified > (select coalesce(max(_file_last_modified), '1900-01-01'::timestamp_ntz) from {{ this }})
+and _file_last_modified > (select coalesce(max(_file_last_modified), '1900-01-01'::timestamp_ntz) from {{ this }})
 {% endif %}

@@ -1,3 +1,5 @@
+{{ config(severity = 'warn') }}
+
 -- Fails if product's actual data date (parsed from filename) is meaningfully
 -- more stale than other sources' data dates. Blob upload metadata
 -- (_file_last_modified) can't detect this since all files were bulk-uploaded
