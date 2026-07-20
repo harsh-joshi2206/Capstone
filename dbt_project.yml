@@ -20,17 +20,17 @@ models:
   capstone_sales_customer_analytics:
     staging:
       +materialized: incremental
-      +schema: BRONZE
+      +schema: "{{ env_var('DBT_BRONZE_SCHEMA', 'BRONZE') }}"
     silver:
       +materialized: view
-      +schema: SILVER
+      +schema: "{{ env_var('DBT_SILVER_SCHEMA', 'SILVER') }}"
     marts:
       core:
         +materialized: table
-        +schema: gold
+        +schema: "{{ env_var('DBT_GOLD_SCHEMA', 'gold') }}"
       reporting:
         +materialized: view
-        +schema: gold
+        +schema: "{{ env_var('DBT_GOLD_SCHEMA', 'gold') }}"
   elementary:
     +schema: elementary
 
