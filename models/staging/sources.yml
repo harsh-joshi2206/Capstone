@@ -3,7 +3,7 @@ version: 2
 sources:
   - name: capstone_raw
     database: CT_HARSH_JOSHI_DB
-    schema: RAW
+    schema: "{{ env_var('DBT_RAW_SCHEMA', 'RAW') }}"
     tables:
       - name: customer_ext
         config:
