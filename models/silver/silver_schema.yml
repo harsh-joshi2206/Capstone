@@ -1,0 +1,100 @@
+version: 2
+
+models:
+  - name: stg_customer
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+      - name: age_segment
+        tests:
+          - accepted_values:
+              values: ['Young', 'Middle-aged', 'Senior']
+
+  - name: stg_product
+    columns:
+      - name: product_id
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_employee
+    columns:
+      - name: employee_id
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_store
+    columns:
+      - name: store_id
+        tests:
+          - unique
+          - not_null
+      - name: size_category
+        tests:
+          - accepted_values:
+              values: ['Small', 'Medium', 'Large']
+
+  - name: stg_supplier
+    columns:
+      - name: supplier_id
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_campaign
+    columns:
+      - name: campaign_id
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_orders
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        tests:
+          - relationships:
+              to: ref('stg_customer')
+              field: customer_id
+      - name: employee_id
+        tests:
+          - relationships:
+              to: ref('stg_employee')
+              field: employee_id
+      - name: store_id
+        tests:
+          - relationships:
+              to: ref('stg_store')
+              field: store_id
+      - name: campaign_id
+        tests:
+          - relationships:
+              to: ref('stg_campaign')
+              field: campaign_id
+      - name: delivery_status
+        tests:
+          - accepted_values:
+              values: ['On Time', 'Delayed', 'Potentially Delayed', 'In Transit']
+      - name: order_time_of_day
+        tests:
+          - accepted_values:
+              values: ['Morning', 'Afternoon', 'Evening', 'Night']
+
+  - name: stg_order_items
+    columns:
+      - name: order_id
+        tests:
+          - relationships:
+              to: ref('stg_orders')
+              field: order_id
+      - name: product_id
+        tests:
+          - relationships:
+              to: ref('stg_product')
+              field: product_id

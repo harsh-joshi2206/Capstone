@@ -1,0 +1,55 @@
+version: 2
+
+sources:
+  - name: capstone_raw
+    database: CT_HARSH_JOSHI_DB
+    schema: RAW
+    tables:
+      - name: customer_ext
+        config:
+          loaded_at_field: file_last_modified
+          freshness:
+            warn_after: {count: 25, period: hour}
+            error_after: {count: 48, period: hour}
+
+      - name: product_ext
+        config:
+          loaded_at_field: file_last_modified
+          freshness:
+            warn_after: {count: 13, period: day}
+            error_after: {count: 14, period: day}
+
+      - name: orders_ext
+        config:
+          loaded_at_field: file_last_modified
+          freshness:
+            warn_after: {count: 25, period: hour}
+            error_after: {count: 48, period: hour}
+
+      - name: employee_ext
+        config:
+          loaded_at_field: file_last_modified
+          freshness:
+            warn_after: {count: 25, period: hour}
+            error_after: {count: 48, period: hour}
+
+      - name: store_ext
+        config:
+          loaded_at_field: file_last_modified
+          freshness:
+            warn_after: {count: 25, period: hour}
+            error_after: {count: 48, period: hour}
+
+      - name: supplier_ext
+        config:
+          loaded_at_field: file_last_modified
+          freshness:
+            warn_after: {count: 25, period: hour}
+            error_after: {count: 48, period: hour}
+
+      - name: campaign_ext
+        config:
+          loaded_at_field: file_last_modified
+          freshness:
+            warn_after: {count: 25, period: hour}
+            error_after: {count: 48, period: hour}

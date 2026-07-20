@@ -1,0 +1,102 @@
+version: 2
+
+models:
+  - name: dim_date
+    columns:
+      - name: date_key
+        tests:
+          - unique
+          - not_null
+      - name: season
+        tests:
+          - accepted_values:
+              values: ['Winter', 'Spring', 'Summer', 'Fall']
+
+  - name: dim_customer
+    columns:
+      - name: customer_key
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        tests:
+          - not_null
+      - name: segment
+        tests:
+          - accepted_values:
+              values: ['Young', 'Middle-aged', 'Senior']
+
+  - name: dim_product
+    columns:
+      - name: product_key
+        tests:
+          - unique
+          - not_null
+      - name: product_id
+        tests:
+          - not_null
+
+  - name: dim_employee
+    columns:
+      - name: employee_key
+        tests:
+          - unique
+          - not_null
+      - name: employee_id
+        tests:
+          - not_null
+
+  - name: dim_store
+    columns:
+      - name: store_key
+        tests:
+          - unique
+          - not_null
+      - name: store_id
+        tests:
+          - not_null
+      - name: size_category
+        tests:
+          - accepted_values:
+              values: ['Small', 'Medium', 'Large']
+
+  - name: fact_sales
+    columns:
+      - name: sales_key
+        tests:
+          - unique
+          - not_null
+      - name: customer_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customer')
+              field: customer_key
+      - name: product_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_product')
+              field: product_key
+      - name: store_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_store')
+              field: store_key
+      - name: date_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_date')
+              field: date_key
+      - name: employee_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_employee')
+              field: employee_key
+      - name: sales_channel
+        tests:
+          - accepted_values:
+              values: ['Online', 'In-Store']
