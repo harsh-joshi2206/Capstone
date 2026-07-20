@@ -12,7 +12,8 @@ with flattened as (
         f2.value as raw_json,
         file_name as _source_file,
         file_last_modified as _file_last_modified,
-        current_timestamp() as _loaded_at
+        current_timestamp() as _loaded_at,
+        '{{ invocation_id }}' as _batch_id
     from {{ source('capstone_raw', 'orders_ext') }} t,
     lateral flatten(input => t.raw_json) f1,
     lateral flatten(input => f1.value) f2
@@ -37,6 +38,7 @@ select
     raw_json,
     _source_file,
     _file_last_modified,
-    _loaded_at
+    _loaded_at,
+    _batch_id
 from ranked
 where _rn = 1

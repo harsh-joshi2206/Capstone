@@ -12,7 +12,8 @@ with order_base as (
         f2.value:order_items as items_array,
         file_name as _source_file,
         file_last_modified as _file_last_modified,
-        current_timestamp() as _loaded_at
+        current_timestamp() as _loaded_at,
+        '{{ invocation_id }}' as _batch_id
     from {{ source('capstone_raw', 'orders_ext') }} t,
     lateral flatten(input => t.raw_json) f1,
     lateral flatten(input => f1.value) f2
@@ -26,7 +27,8 @@ exploded as (
         item.value as raw_json,
         order_base._source_file,
         order_base._file_last_modified,
-        order_base._loaded_at
+        order_base._loaded_at,
+        order_base._batch_id
     from order_base,
     lateral flatten(input => order_base.items_array) item
 ),
@@ -48,7 +50,8 @@ select
     raw_json,
     _source_file,
     _file_last_modified,
-    _loaded_at
+    _loaded_at,
+    _batch_id
 from ranked
 where _rn = 1
 

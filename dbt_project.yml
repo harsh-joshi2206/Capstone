@@ -20,10 +20,10 @@ models:
   capstone_sales_customer_analytics:
     staging:
       +materialized: incremental
-      +schema: DBT_HARSHJOSHI2206
-    intermediate:
+      +schema: BRONZE
+    silver:
       +materialized: view
-      +schema: silver
+      +schema: SILVER
     marts:
       core:
         +materialized: table
@@ -31,3 +31,8 @@ models:
       reporting:
         +materialized: view
         +schema: gold
+  elementary:
+    +schema: elementary
+
+on-run-end:
+  - "{{ elementary.upload_dbt_artifacts() }}"

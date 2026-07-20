@@ -3,7 +3,7 @@ version: 2
 sources:
   - name: capstone_raw
     database: CT_HARSH_JOSHI_DB
-    schema: DBT_HARSHJOSHI2206
+    schema: RAW
     tables:
       - name: customer_ext
         config:
